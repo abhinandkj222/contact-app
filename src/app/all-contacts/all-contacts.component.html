@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col ">
+            <h1>All contacts
+                <a class="btn btn-success ms-5" routerLink="add-contact"><i class="fa-solid fa-user-plus">add
+                        new</i></a>
+
+            </h1>
+            <p style="text-align: justify;">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus tenetur maiores ipsa qui veniam dolorem?
+                Beatae incidunt itaque, cumque accusamus eos, deserunt exercitationem a facere earum excepturi enim quas
+                quis?Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem magni reiciendis quis, laborum
+                repudiandae earum dolore accusamus officia culpa ducimus harum deleniti ad libero. Dolorum ducimus quod
+                maxime eius ut. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod velit voluptatum quia
+                porro voluptates laborum, quas, rem itaque expedita totam non maiores laudantium suscipit autem dolorem,
+                exercitationem illum quam? Similique. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
+                laudantium necessitatibus architecto. Earum libero, eaque enim culpa, ratione delectus dicta quae
+                doloribus, odio numquam quidem in sapiente ut distinctio iste.
+            </p>
+            <div class="row">
+                <div class="col-lg-2 fw-bolder">
+                    search conatct:
+                </div>
+                <div class="col-lg-6 me-auto">
+                    <input [(ngModel)]="searchKey" placeholder="Type contact name here!!!!" type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--loading spinner -->
+
+<div *ngIf="isLoading && allContacts.length==0" class="text-center mt-5">
+    <!-- spinner bootstrap code -->
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+</div>
+
+<!-- if no contact no match  to the input filed -->
+<div *ngIf="(allContacts | filter : searchKey : 'name').length==0 && !isLoading">
+    <h3 style="text-align: center; margin-top: 20px;"> No contact found</h3>
+</div>
+
+<!-- error msg div -->
+<div *ngIf="errorMsg" class="alert alert-danger m-5" role="alert">
+    {{errorMsg}}
+
+  </div>
+<!-- contact card desing -->
+<div class="container mt-5">
+    <div *ngIf="!isLoading && allContacts.length>0" class="row">
+        <div class="col-lg-6 mb-3" *ngFor="let contact of allContacts | filter : searchKey :'name' " >
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-sm-3 text-center">
+                            <!-- img -->
+                            <img class="w-75" [src]="contact.photo" alt="">
+                        </div>
+                        <div class="col-sm-8">
+                            <!-- conatnet -->
+                        <div class="list-group">
+                            <li class="list-group-item">Name: <span class="fw-bolder">{{contact.name}}</span></li>
+                            <li class="list-group-item">Mobile: <span class="fw-bolder">{{contact.mobile}}</span></li>
+                            <li class="list-group-item">E-mail: <span class="fw-bolder">{{contact.email}}</span></li>
+                        </div>                            
+                        </div>
+                        <div class="col-sm-1 d-flex flex-column justify-content-center align-items-center">
+                     <!-- actions -->
+                       <!-- view -->
+                       <a class="btn btn-warning text-light mb-1"routerLink="view-contact/{{contact.id}}"><i class="fa-solid fa-eye "></i> </a>
+                       <a class="btn btn-success text-light mb-1" routerLink="edit-contact/{{contact.id}}"><i class="fa-solid fa-pen"></i></a>
+                       <button (click)="deleteContact(contact.id)" class="btn btn-danger text-light mb-1" ><i class="fa-solid fa-trash"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
